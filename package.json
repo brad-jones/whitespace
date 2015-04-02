@@ -1,0 +1,11 @@
+{
+	"name": "brad-jones.whitespace",
+	"title": "Whitespace My Way",
+	"description": "Out of all the whitespace normalizers I couldn't find one that fitted my needs so I made my own.",
+	"keywords": ["white", "space", "whitespace", "normalizer", "spaces", "tabs"],
+	"homepage": "https://github.com/brad-jones/whitespace",
+	"version": "0.0.1",
+	"engines": { "brackets": ">=1.1.0" },
+	"author": "Brad Jones <brad@bjc.id.au>",
+	"license": "MIT"
+}

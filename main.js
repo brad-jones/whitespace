@@ -22,6 +22,8 @@
 
 define(function (require, exports, module)
 {
+	"use strict";
+
 	// Import some modules
 	var
 		Commands        = brackets.getModule('command/Commands'),
@@ -36,13 +38,21 @@ define(function (require, exports, module)
 		COMP_NAME = 'brad-jones.whitespace'
 	;
 	
-	// Attach some events
-	$(DocumentManager).on('documentSaved', normaliseWhitespace);
+	// When the document is opened lets normlaise it's whietspace but not save.
 	$(DocumentManager).on('documentRefreshed', normaliseWhitespace);
 	
+	// When the document is saved normalise and then save again.
+	$(DocumentManager).on('documentSaved', function(event, doc)
+	{
+		CommandManager.execute(Commands.FILE_SAVE,
+		{
+			doc: normaliseWhitespace(event, doc)
+		});
+	});
+
 	/**
 	 * Given a document, we will search for all leading whitespace,
-	 * detroy that whitespace and replace it with the type of
+	 * destroy that whitespace and replace it with the type of
 	 * indentation currently set in Brackets.
 	 *
 	 * Trailing whitespace is also detroyed.
@@ -53,6 +63,8 @@ define(function (require, exports, module)
 	 *
 	 * @param {Object} event
 	 * @param {Object} doc
+	 *
+	 * @returns {Object} doc The normalised document.
 	 */
 	function normaliseWhitespace(event, doc)
 	{
@@ -104,8 +116,7 @@ define(function (require, exports, module)
 			}
 		});
 		
-		// Save the modified file
-		CommandManager.execute(Commands.FILE_SAVE, {doc: doc});
+		return doc;
 	}
 	
 	/**
